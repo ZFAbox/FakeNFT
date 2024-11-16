@@ -3,7 +3,7 @@ import UIKit
 import Kingfisher
 
 protocol NftCatalogueItemViewControllerProtocol: AnyObject, ErrorView, LoadingView {
-    func displayItems(_ nftCollectionItems: [NftCollectionItem])
+    func displayItems(_ nftCollectionItems: [NftCollectionItem], _ nftOrder: NftOrder)
 }
 
 final class NftCatalogueItemViewController: UIViewController, SettingViewsProtocol  {
@@ -229,7 +229,7 @@ extension NftCatalogueItemViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension NftCatalogueItemViewController: NftCatalogueItemViewControllerProtocol {
-    func displayItems(_ nftCollectionItems: [NftCollectionItem]) {
+    func displayItems(_ nftCollectionItems: [NftCollectionItem], _ nftOrder: NftOrder) {
         catalogeItems = nftCollectionItems
         nftCatalogueCollectionView.reloadData()
     }
