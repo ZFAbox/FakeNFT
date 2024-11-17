@@ -10,6 +10,7 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
 
     private var catalogue: NftCatalogueCollection
     private var catalogeItems: [NftCollectionItem] = []
+    private var nftOrder: NftOrder = NftOrder(nfts: [], id: "")
     
     private var presenter: NftCatalogueItemPresenter
     
@@ -206,7 +207,7 @@ extension NftCatalogueItemViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectioItem", for: indexPath) as! NftCatalogueItemCollectionViewCell
-        cell.configureItem(with: catalogeItems[indexPath.row])
+        cell.configureItem(with: catalogeItems[indexPath.row], nftOrder: nftOrder)
         return cell
     }
 }
@@ -231,6 +232,7 @@ extension NftCatalogueItemViewController: UICollectionViewDelegateFlowLayout {
 extension NftCatalogueItemViewController: NftCatalogueItemViewControllerProtocol {
     func displayItems(_ nftCollectionItems: [NftCollectionItem], _ nftOrder: NftOrder) {
         catalogeItems = nftCollectionItems
+        self.nftOrder = nftOrder
         nftCatalogueCollectionView.reloadData()
     }
 }

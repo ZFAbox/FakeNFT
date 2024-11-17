@@ -112,7 +112,7 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         starImageViews.prefix(upTo: rank).forEach{ $0.tintColor = UIColor(resource: .nftYellow) }
     }
     
-    func configureItem(with item: NftCollectionItem) {
+    func configureItem(with item: NftCollectionItem, nftOrder: NftOrder) {
         itemImageView.kf.setImage(with: item.images.first)
         var itemName = item.name
         if itemName.count > 5 {
@@ -121,6 +121,8 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         itmeTitle.text = itemName
         rank = item.rating
         priceLable.text = "\(item.price) ETH"
+        recycleIsEmpty = !nftOrder.nfts.contains(item.id)
+        recycleStateUpdate()
     }
     
     @objc func likeButtonTapped(){
@@ -132,10 +134,34 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
     
     @objc func recycleButtonTapped(){
         recycleIsEmpty.toggle()
+        recycleStateUpdateAnimated()
+    }
+    
+    
+    func recycleStateUpdate(){
         let image = recycleIsEmpty
         ? UIImage(resource: .nftRecycleEmpty)
         : UIImage(resource: .nftRecycleFull)
         recycleButton.setImage(image, for: .normal)
+
+    }
+    
+    func recycleStateUpdateAnimated(){
+        let image = recycleIsEmpty
+        ? UIImage(resource: .nftRecycleEmpty)
+        : UIImage(resource: .nftRecycleFull)
+        
+        UIView.animateKeyframes(withDuration: 0.3, delay: 0) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.67) {
+                let transformation = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                self.recycleButton.transform = transformation
+            }
+           UIView.addKeyframe(withRelativeStartTime: 0.67, relativeDuration: 1) {
+               let transformation = CGAffineTransform(scaleX: 1.0, y: 1.0)
+               self.recycleButton.transform = transformation
+               self.recycleButton.setImage(image, for: .normal)
+            }
+        }
     }
     
     func setupView() {
