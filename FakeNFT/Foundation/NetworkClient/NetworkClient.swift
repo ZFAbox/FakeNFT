@@ -18,6 +18,12 @@ protocol NetworkClient {
                             type: T.Type,
                             completionQueue: DispatchQueue,
                             onResponse: @escaping (Result<T, Error>) -> Void) -> NetworkTask?
+    
+    @discardableResult
+    func send<T: Decodable>(request: NetworkPutRequest,
+                            type: T.Type,
+                            completionQueue: DispatchQueue,
+                            onResponse: @escaping (Result<T, Error>) -> Void) -> NetworkTask?
 }
 
 extension NetworkClient {
@@ -30,6 +36,13 @@ extension NetworkClient {
 
     @discardableResult
     func send<T: Decodable>(request: NetworkRequest,
+                            type: T.Type,
+                            onResponse: @escaping (Result<T, Error>) -> Void) -> NetworkTask? {
+        send(request: request, type: type, completionQueue: .main, onResponse: onResponse)
+    }
+    
+    @discardableResult
+    func send<T: Decodable>(request: NetworkPutRequest,
                             type: T.Type,
                             onResponse: @escaping (Result<T, Error>) -> Void) -> NetworkTask? {
         send(request: request, type: type, completionQueue: .main, onResponse: onResponse)
@@ -89,6 +102,48 @@ struct DefaultNetworkClient: NetworkClient {
 
         return DefaultNetworkTask(dataTask: task)
     }
+    
+    @discardableResult
+    func send(
+        request: NetworkPutRequest,
+        completionQueue: DispatchQueue,
+        onResponse: @escaping (Result<Data, Error>) -> Void
+    ) -> NetworkTask? {
+        let onResponse: (Result<Data, Error>) -> Void = { result in
+            completionQueue.async {
+                onResponse(result)
+            }
+        }
+        guard let urlRequest = createPutRequest(request: request) else { return nil }
+
+        let task = session.dataTask(with: urlRequest) { data, response, error in
+            guard let response = response as? HTTPURLResponse else {
+                onResponse(.failure(NetworkClientError.urlSessionError))
+                return
+            }
+
+            guard 200 ..< 300 ~= response.statusCode else {
+                onResponse(.failure(NetworkClientError.httpStatusCode(response.statusCode)))
+                return
+            }
+
+            if let data = data {
+                onResponse(.success(data))
+                return
+            } else if let error = error {
+                onResponse(.failure(NetworkClientError.urlRequestError(error)))
+                return
+            } else {
+                assertionFailure("Unexpected condition!")
+                return
+            }
+        }
+
+        task.resume()
+
+        return DefaultNetworkTask(dataTask: task)
+    }
+
 
     @discardableResult
     func send<T: Decodable>(
@@ -106,6 +161,24 @@ struct DefaultNetworkClient: NetworkClient {
             }
         }
     }
+    
+    @discardableResult
+    func send<T: Decodable>(
+        request: NetworkPutRequest,
+        type: T.Type,
+        completionQueue: DispatchQueue,
+        onResponse: @escaping (Result<T, Error>) -> Void
+    ) -> NetworkTask? {
+        return send(request: request, completionQueue: completionQueue) { result in
+            switch result {
+            case let .success(data):
+                self.parse(data: data, type: type, onResponse: onResponse)
+            case let .failure(error):
+                onResponse(.failure(error))
+            }
+        }
+    }
+
 
     // MARK: - Private
 
@@ -126,6 +199,35 @@ struct DefaultNetworkClient: NetworkClient {
                 URLQueryItem(
                     name: field.key,
                     value: field.value
+                    )
+            }
+            urlComponents.queryItems = queryItems
+            urlRequest.httpBody = urlComponents.query?.data(using: .utf8)
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+
+        urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+
+        return urlRequest
+    }
+    
+    private func createPutRequest(request: NetworkPutRequest) -> URLRequest? {
+        guard let endpoint = request.endpoint else {
+            assertionFailure("Empty endpoint")
+            return nil
+        }
+
+        var urlRequest = URLRequest(url: endpoint)
+        urlRequest.httpMethod = request.httpMethod.rawValue
+
+        urlRequest.addValue(RequestConstants.token, forHTTPHeaderField: "X-Practicum-Mobile-Token")
+
+        if let dtoDictionary = request.dto?.asDictionary() {
+            var urlComponents = URLComponents()
+            let queryItems = dtoDictionary.map { field in
+                URLQueryItem(
+                    name: field.value,
+                    value: field.key
                     )
             }
             urlComponents.queryItems = queryItems

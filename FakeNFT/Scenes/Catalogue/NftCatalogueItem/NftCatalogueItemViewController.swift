@@ -6,6 +6,10 @@ protocol NftCatalogueItemViewControllerProtocol: AnyObject, ErrorView, LoadingVi
     func displayItems(_ nftCollectionItems: [NftCollectionItem], _ nftOrder: NftOrder)
 }
 
+protocol NftRecycleManagerUpdateProtocol: AnyObject, ErrorView, LoadingView {
+    func updateNftOrder(_ nftOrder: OrderPutResponse)
+}
+
 final class NftCatalogueItemViewController: UIViewController, SettingViewsProtocol  {
 
     private var catalogue: NftCatalogueCollection
@@ -13,6 +17,7 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
     private var nftOrder: NftOrder = NftOrder(nfts: [], id: "")
     
     private var presenter: NftCatalogueItemPresenter
+    private var nftRecycleManager: NftRecycleManagerProtocol
     
     private lazy var nftCatalogueCollectionHeight: Int = {
         let heightOfCollectionItem: Int = 192
@@ -98,9 +103,10 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
         return collectionView
     }()
     
-    init(presenter: NftCatalogueItemPresenter, catalogue: NftCatalogueCollection) {
+    init(serviceAssembly: CatalogueServicesAssembly, presenter: NftCatalogueItemPresenter, catalogue: NftCatalogueCollection) {
         self.presenter = presenter
         self.catalogue = catalogue
+        self.nftRecycleManager = NftRecycleManager(servicesAssembly: serviceAssembly)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -207,7 +213,7 @@ extension NftCatalogueItemViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectioItem", for: indexPath) as! NftCatalogueItemCollectionViewCell
-        cell.configureItem(with: catalogeItems[indexPath.row], nftOrder: nftOrder)
+        cell.configureItem(with: catalogeItems[indexPath.row], nftOrder: nftOrder, nftRecycleManager: nftRecycleManager)
         return cell
     }
 }
@@ -234,5 +240,11 @@ extension NftCatalogueItemViewController: NftCatalogueItemViewControllerProtocol
         catalogeItems = nftCollectionItems
         self.nftOrder = nftOrder
         nftCatalogueCollectionView.reloadData()
+    }
+}
+
+extension NftCatalogueItemViewController: NftRecycleManagerUpdateProtocol {
+            func updateNftOrder(_ nftOrder: OrderPutResponse) {
+                self.nftOrder = NftOrder(nfts: nftOrder.nfts, id: nftOrder.id)
     }
 }

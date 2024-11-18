@@ -13,7 +13,17 @@ protocol NetworkRequest {
     var dto: Dto? { get }
 }
 
+protocol NetworkPutRequest {
+    var endpoint: URL? { get }
+    var httpMethod: HttpMethod { get }
+    var dto: DtoPut? { get }
+}
+
 protocol Dto {
+    func asDictionary() -> [String: String]
+}
+
+protocol DtoPut {
     func asDictionary() -> [String: String]
 }
 

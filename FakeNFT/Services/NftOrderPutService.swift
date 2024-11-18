@@ -4,7 +4,7 @@ typealias NftOrderPutCompletion = (Result<OrderPutResponse, Error>) -> Void
 
 protocol NftOrderPutService {
     func sendOrderPutRequest(
-        nfts: String,
+        nfts: [String],
         completion: @escaping NftOrderPutCompletion
     )
 }
@@ -17,7 +17,7 @@ final class NftOrderPutServiceImpl: NftOrderPutService {
     }
     
     func sendOrderPutRequest(
-        nfts: String,
+        nfts: [String],
         completion: @escaping NftOrderPutCompletion
     ) {
         let dto = NftOrderDtoObject(nfts: nfts)

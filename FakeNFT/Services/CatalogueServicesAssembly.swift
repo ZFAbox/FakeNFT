@@ -34,4 +34,10 @@ final class CatalogueServicesAssembly {
         )
     }
     
+    var nftOrderPutService: NftOrderPutService {
+        NftOrderPutServiceImpl(
+            networkClient: networkClient
+        )
+    }
+    
 }

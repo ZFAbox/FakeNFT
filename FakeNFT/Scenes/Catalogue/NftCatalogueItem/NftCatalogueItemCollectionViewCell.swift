@@ -10,6 +10,9 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
     }
     
     private var likeButtonState = false
+    private var nftRecycleManager: NftRecycleManagerProtocol?
+    private var nftId: String = ""
+    private var nftsOrder: [String] = []
     private var recycleIsEmpty = true
     
     private lazy var itemImageView: UIImageView = {
@@ -112,15 +115,18 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         starImageViews.prefix(upTo: rank).forEach{ $0.tintColor = UIColor(resource: .nftYellow) }
     }
     
-    func configureItem(with item: NftCollectionItem, nftOrder: NftOrder) {
+    func configureItem(with item: NftCollectionItem, nftOrder: NftOrder, nftRecycleManager: NftRecycleManagerProtocol) {
         itemImageView.kf.setImage(with: item.images.first)
         var itemName = item.name
         if itemName.count > 5 {
             itemName = itemName.prefix(5) + "..."
         }
+        self.nftRecycleManager = nftRecycleManager
+        nftId = item.id
         itmeTitle.text = itemName
         rank = item.rating
         priceLable.text = "\(item.price) ETH"
+        nftsOrder = nftOrder.nfts
         recycleIsEmpty = !nftOrder.nfts.contains(item.id)
         recycleStateUpdate()
     }
@@ -133,6 +139,15 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
     }
     
     @objc func recycleButtonTapped(){
+        guard let nftRecycleManager = nftRecycleManager else { return }
+        if recycleIsEmpty {
+            nftsOrder.append(nftId)
+            nftRecycleManager.sendNftOrder(nfts: nftsOrder)
+        } else {
+            nftsOrder.removeAll { id in
+                nftId == id
+            }
+        }
         recycleIsEmpty.toggle()
         recycleStateUpdateAnimated()
     }
