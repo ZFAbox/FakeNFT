@@ -4,7 +4,8 @@ import Foundation
 // MARK: - Protocol
 
 protocol NftRecycleManagerProtocol {
-    func sendNftOrder(nfts: [String])
+    var delegate: NftItemRecycleUnlockProtocol? { get set }
+    func sendOrder()
 }
 
 enum NftRecycleManagerState {
@@ -14,9 +15,9 @@ enum NftRecycleManagerState {
 final class NftRecycleManager: NftRecycleManagerProtocol {
     
     // MARK: - Properties
-
+    weak var delegate: NftItemRecycleUnlockProtocol?
     weak var view: NftRecycleManagerUpdateProtocol?
-    private var nfts: [String] = []
+    private var recycleStorage = NftRecycleStorage.shared
     private let nftOrderPutService: NftOrderPutService
     private var state = NftRecycleManagerState.initial {
         didSet {
@@ -32,7 +33,7 @@ final class NftRecycleManager: NftRecycleManagerProtocol {
 
     // MARK: - Functions
 
-    func viewDidLoad() {
+    func sendOrder() {
         state = .loading
     }
 
@@ -41,20 +42,21 @@ final class NftRecycleManager: NftRecycleManagerProtocol {
         case .initial:
             assertionFailure("can't move to initial state")
         case .loading:
-            view?.showLoading()
-            sendNftOrder(nfts: nfts)
+            print(recycleStorage.order)
+            sendNftOrder(nfts: recycleStorage.order)
         case .nftOrderData(let nftOrder):
             print(nftOrder)
-//            view?.hideLoading()
-            view?.updateNftOrder(nftOrder)
+            delegate?.recycleUnlock()
+            recycleStorage.order = nftOrder.nfts
         case .failed(let error):
             let errorModel = makeErrorModel(error)
             view?.hideLoading()
+            delegate?.recycleUnlock()
             view?.showError(errorModel)
         }
     }
 
-    func sendNftOrder(nfts: [String]) {
+    private func sendNftOrder(nfts: [String]) {
         nftOrderPutService.sendOrderPutRequest(nfts: nfts) { [weak self] result in
                 guard let self = self else { return }
                 switch result {

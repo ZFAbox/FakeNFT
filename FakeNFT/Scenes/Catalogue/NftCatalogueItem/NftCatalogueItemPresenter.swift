@@ -20,6 +20,7 @@ final class NftCatalogueItemPresenter: NftCatalogueItemPresenterProtocol {
     private var output: [NftCollectionItem] = []
     private let nftItemsService: NftItemsService
     private let nftOrderService: NftOrderService
+    private var recycleStorage = NftRecycleStorage.shared
     private var state = NftCatalogueItemState.initial {
         didSet {
             stateDidChanged()
@@ -57,7 +58,8 @@ final class NftCatalogueItemPresenter: NftCatalogueItemPresenterProtocol {
         case .nftOrderData(let nftOrder):
             print(nftOrder)
             view?.hideLoading()
-            view?.displayItems(output, nftOrder)
+            recycleStorage.order = nftOrder.nfts
+            view?.displayItems(output)
         case .failed(let error):
             let errorModel = makeErrorModel(error)
             view?.hideLoading()

@@ -3,7 +3,7 @@ import UIKit
 import Kingfisher
 
 protocol NftCatalogueItemViewControllerProtocol: AnyObject, ErrorView, LoadingView {
-    func displayItems(_ nftCollectionItems: [NftCollectionItem], _ nftOrder: NftOrder)
+    func displayItems(_ nftCollectionItems: [NftCollectionItem])
 }
 
 protocol NftRecycleManagerUpdateProtocol: AnyObject, ErrorView, LoadingView {
@@ -14,8 +14,6 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
 
     private var catalogue: NftCatalogueCollection
     private var catalogeItems: [NftCollectionItem] = []
-    private var nftOrder: NftOrder = NftOrder(nfts: [], id: "")
-    
     private var presenter: NftCatalogueItemPresenter
     private var nftRecycleManager: NftRecycleManagerProtocol
     
@@ -213,7 +211,7 @@ extension NftCatalogueItemViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectioItem", for: indexPath) as! NftCatalogueItemCollectionViewCell
-        cell.configureItem(with: catalogeItems[indexPath.row], nftOrder: nftOrder, nftRecycleManager: nftRecycleManager)
+        cell.configureItem(with: catalogeItems[indexPath.row], nftRecycleManager: nftRecycleManager)
         return cell
     }
 }
@@ -236,15 +234,8 @@ extension NftCatalogueItemViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension NftCatalogueItemViewController: NftCatalogueItemViewControllerProtocol {
-    func displayItems(_ nftCollectionItems: [NftCollectionItem], _ nftOrder: NftOrder) {
+    func displayItems(_ nftCollectionItems: [NftCollectionItem]) {
         catalogeItems = nftCollectionItems
-        self.nftOrder = nftOrder
         nftCatalogueCollectionView.reloadData()
-    }
-}
-
-extension NftCatalogueItemViewController: NftRecycleManagerUpdateProtocol {
-            func updateNftOrder(_ nftOrder: OrderPutResponse) {
-                self.nftOrder = NftOrder(nfts: nftOrder.nfts, id: nftOrder.id)
     }
 }
