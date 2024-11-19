@@ -16,7 +16,7 @@ final class NftLikesServiceImpl: NftLikesService {
     
     func loadNftLikes(completion: @escaping NftLikesCompletion) {
 
-        let request = NftLikesRequest()
+        let request = NftProfileRequest()
         networkClient.send(request: request, type: NftProfile.self) {result in
             switch result {
             case .success(let nftLikes):

@@ -6,16 +6,17 @@ protocol NftCatalogueItemViewControllerProtocol: AnyObject, ErrorView, LoadingVi
     func displayItems(_ nftCollectionItems: [NftCollectionItem])
 }
 
-protocol NftRecycleManagerUpdateProtocol: AnyObject, ErrorView, LoadingView {
-    func updateNftOrder(_ nftOrder: OrderPutResponse)
+protocol NftManagerUpdateProtocol: AnyObject, ErrorView, LoadingView {
+//    func updateNftOrder(_ nftOrder: OrderPutResponse)
 }
 
-final class NftCatalogueItemViewController: UIViewController, SettingViewsProtocol  {
+final class NftCatalogueItemViewController: UIViewController, SettingViewsProtocol, NftManagerUpdateProtocol  {
 
     private var catalogue: NftCatalogueCollection
     private var catalogeItems: [NftCollectionItem] = []
     private var presenter: NftCatalogueItemPresenter
-    private var nftRecycleManager: NftRecycleManagerProtocol
+    private var nftRecycleManager: NftRecycleManagerProtocol?
+    private var nftProfileManager: NftProfileManagerProtocol?
     
     private lazy var nftCatalogueCollectionHeight: Int = {
         let heightOfCollectionItem: Int = 192
@@ -105,8 +106,9 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
     init(serviceAssembly: CatalogueServicesAssembly, presenter: NftCatalogueItemPresenter, catalogue: NftCatalogueCollection) {
         self.presenter = presenter
         self.catalogue = catalogue
-        self.nftRecycleManager = NftRecycleManager(servicesAssembly: serviceAssembly)
         super.init(nibName: nil, bundle: nil)
+        self.nftRecycleManager = NftRecycleManager(servicesAssembly: serviceAssembly,view: self)
+        self.nftProfileManager = NftProfileManager(servicesAssembly: serviceAssembly,view: self)
     }
     
     required init?(coder: NSCoder) {
@@ -221,7 +223,7 @@ extension NftCatalogueItemViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectioItem", for: indexPath) as! NftCatalogueItemCollectionViewCell
-        cell.configureItem(with: catalogeItems[indexPath.row], nftRecycleManager: nftRecycleManager)
+        cell.configureItem(with: catalogeItems[indexPath.row], nftRecycleManager: nftRecycleManager, nftProfileManager: nftProfileManager)
         return cell
     }
 }

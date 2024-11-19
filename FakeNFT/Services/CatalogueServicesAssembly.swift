@@ -44,4 +44,10 @@ final class CatalogueServicesAssembly {
         NftLikesServiceImpl(networkClient: networkClient)
     }
     
+    var nftProfilePutService: NftProfilePutService {
+        NftProfilePutServiceImpl(
+            networkClient: networkClient
+        )
+    }
+    
 }

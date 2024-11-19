@@ -1,9 +1,3 @@
-//
-//  NftCollectionTableViewCell.swift
-//  FakeNFT
-//
-//  Created by Федор Завьялов on 09.11.2024.
-//
 
 import UIKit
 import SnapKit

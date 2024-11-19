@@ -5,6 +5,10 @@ protocol NftItemRecycleUnlockProtocol: AnyObject {
     func recycleUnlock()
 }
 
+protocol NftItemLikeUnlockProtocol: AnyObject {
+    func likeUnlock()
+}
+
 final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingViewsProtocol {
     
     private var rank: Int = 0 {
@@ -15,6 +19,7 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
     
     private var likeButtonState = false
     private var nftRecycleManager: NftRecycleManagerProtocol?
+    private var nftProfileManager: NftProfileManagerProtocol?
     private var nftId: String = "" {
         didSet {
             recycleIsEmpty = !recycleStorage.orderCounted.contains(nftId)
@@ -134,13 +139,14 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         starImageViews.prefix(upTo: rank).forEach{ $0.tintColor = UIColor(resource: .nftYellow) }
     }
     
-    func configureItem(with item: NftCollectionItem, nftRecycleManager: NftRecycleManagerProtocol) {
+    func configureItem(with item: NftCollectionItem, nftRecycleManager: NftRecycleManagerProtocol?, nftProfileManager: NftProfileManagerProtocol?) {
         itemImageView.kf.setImage(with: item.images.first)
         var itemName = item.name
         if itemName.count > 5 {
             itemName = itemName.prefix(5) + "..."
         }
         self.nftRecycleManager = nftRecycleManager
+        self.nftProfileManager = nftProfileManager
         nftId = item.id
         itmeTitle.text = itemName
         rank = item.rating
@@ -150,8 +156,24 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
     }
     
     @objc func likeButtonTapped(){
-        likeButtonState.toggle()
-        likeUpdate()
+        self.nftProfileManager?.delegate = self
+        let profile = profileStorage.profile
+        guard let nftProfileManager = nftProfileManager else { return }
+        if !likeButtonState {
+            likesStorage.likes.append(nftId)
+        }else {
+            guard let index = likesStorage.likes.firstIndex(of: nftId) else { return }
+            likesStorage.likes.remove(at: index)
+        }
+        let updateProfile = NftProfile(
+            name: profile.name,
+            description: profile.description,
+            website: profile.website,
+            likes: likesStorage.likes
+        )
+        profileStorage.profile = updateProfile
+        likeImageButton.isUserInteractionEnabled = false
+        nftProfileManager.sendProfile()
     }
     
     @objc func recycleButtonTapped(){
@@ -253,5 +275,14 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
 extension NftCatalogueItemCollectionViewCell: NftItemRecycleUnlockProtocol {
     func recycleUnlock() {
         recycleButton.isUserInteractionEnabled = true
+    }
+}
+
+
+extension NftCatalogueItemCollectionViewCell: NftItemLikeUnlockProtocol {
+    func likeUnlock() {
+        likeImageButton.isUserInteractionEnabled = true
+        likeButtonState.toggle()
+        likeUpdate()
     }
 }
