@@ -132,8 +132,8 @@
 		90FA0F6D2CE7F0B4005D2E40 /* NftOrderInfromationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftOrderInfromationService.swift; sourceTree = "<group>"; };
 		90FA0F712CE7F1BA005D2E40 /* NftOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftOrder.swift; sourceTree = "<group>"; };
 		90FA0F732CE7F431005D2E40 /* NftOrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftOrderRequest.swift; sourceTree = "<group>"; };
-		9F8930D62CEC7BCE000F6E9C /* NftAuthorWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NftAuthorWebView.swift; path = FakeNFT/Scenes/Catalogue/NftAuthorWebView.swift; sourceTree = SOURCE_ROOT; };
-		9F8930D82CEC8F0D000F6E9C /* NftAuthorWebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NftAuthorWebViewPresenter.swift; path = FakeNFT/Scenes/Catalogue/NftAuthorWebViewPresenter.swift; sourceTree = SOURCE_ROOT; };
+		9F8930D62CEC7BCE000F6E9C /* NftAuthorWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NftAuthorWebView.swift; path = FakeNFT/Scenes/Catalogue/NftAuthorWebView/NftAuthorWebView.swift; sourceTree = SOURCE_ROOT; };
+		9F8930D82CEC8F0D000F6E9C /* NftAuthorWebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NftAuthorWebViewPresenter.swift; path = FakeNFT/Scenes/Catalogue/NftAuthorWebView/NftAuthorWebViewPresenter.swift; sourceTree = SOURCE_ROOT; };
 		9F8CBB332CEB4EAC00D6BEDD /* NftOrderPutService 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NftOrderPutService 2.swift"; sourceTree = "<group>"; };
 		9F8CBB352CEB4EB600D6BEDD /* NftOrderPutRequest 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NftOrderPutRequest 2.swift"; sourceTree = "<group>"; };
 		9F8CBB392CEB69BB00D6BEDD /* NftRecycleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftRecycleManager.swift; sourceTree = "<group>"; };
