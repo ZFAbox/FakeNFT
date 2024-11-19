@@ -79,6 +79,7 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
         let button = UIButton()
         button.setTitleColor(.nftBlueUni, for: .normal)
         button.titleLabel?.font = UIFont.caption1
+        button.addTarget(self, action: #selector(oneAuthorWeb), for: .touchUpInside)
         return button
     }()
     
@@ -124,6 +125,15 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
     
     @objc func backButtonTapped(){
         self.dismiss(animated: true)
+    }
+    
+    @objc func oneAuthorWeb(){
+        let urlString = "https://market.yandex.ru/"
+        let presenter = NftAuthorWebViewPresenter(urlString: urlString)
+        let authorWebView = NftAuthorWebView(presenter: presenter)
+        presenter.view = authorWebView
+        authorWebView.modalPresentationStyle = .fullScreen
+        self.present(authorWebView, animated: true)
     }
     
     func prepareViews() {

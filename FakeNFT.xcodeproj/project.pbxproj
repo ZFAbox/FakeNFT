@@ -54,6 +54,8 @@
 		90FA0F6E2CE7F0B4005D2E40 /* NftOrderInfromationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA0F6D2CE7F0B4005D2E40 /* NftOrderInfromationService.swift */; };
 		90FA0F722CE7F1BA005D2E40 /* NftOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA0F712CE7F1BA005D2E40 /* NftOrder.swift */; };
 		90FA0F742CE7F431005D2E40 /* NftOrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FA0F732CE7F431005D2E40 /* NftOrderRequest.swift */; };
+		9F8930D72CEC7BCE000F6E9C /* NftAuthorWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8930D62CEC7BCE000F6E9C /* NftAuthorWebView.swift */; };
+		9F8930D92CEC8F0D000F6E9C /* NftAuthorWebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8930D82CEC8F0D000F6E9C /* NftAuthorWebViewPresenter.swift */; };
 		9F8CBB342CEB4EAC00D6BEDD /* NftOrderPutService 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8CBB332CEB4EAC00D6BEDD /* NftOrderPutService 2.swift */; };
 		9F8CBB362CEB4EB600D6BEDD /* NftOrderPutRequest 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8CBB352CEB4EB600D6BEDD /* NftOrderPutRequest 2.swift */; };
 		9F8CBB3A2CEB69BB00D6BEDD /* NftRecycleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8CBB392CEB69BB00D6BEDD /* NftRecycleManager.swift */; };
@@ -130,6 +132,8 @@
 		90FA0F6D2CE7F0B4005D2E40 /* NftOrderInfromationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftOrderInfromationService.swift; sourceTree = "<group>"; };
 		90FA0F712CE7F1BA005D2E40 /* NftOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftOrder.swift; sourceTree = "<group>"; };
 		90FA0F732CE7F431005D2E40 /* NftOrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftOrderRequest.swift; sourceTree = "<group>"; };
+		9F8930D62CEC7BCE000F6E9C /* NftAuthorWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NftAuthorWebView.swift; path = FakeNFT/Scenes/Catalogue/NftAuthorWebView.swift; sourceTree = SOURCE_ROOT; };
+		9F8930D82CEC8F0D000F6E9C /* NftAuthorWebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NftAuthorWebViewPresenter.swift; path = FakeNFT/Scenes/Catalogue/NftAuthorWebViewPresenter.swift; sourceTree = SOURCE_ROOT; };
 		9F8CBB332CEB4EAC00D6BEDD /* NftOrderPutService 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NftOrderPutService 2.swift"; sourceTree = "<group>"; };
 		9F8CBB352CEB4EB600D6BEDD /* NftOrderPutRequest 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NftOrderPutRequest 2.swift"; sourceTree = "<group>"; };
 		9F8CBB392CEB69BB00D6BEDD /* NftRecycleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftRecycleManager.swift; sourceTree = "<group>"; };
@@ -401,6 +405,8 @@
 		9F2FADD12CE488DE00698510 /* NftAuthorWebView */ = {
 			isa = PBXGroup;
 			children = (
+				9F8930D62CEC7BCE000F6E9C /* NftAuthorWebView.swift */,
+				9F8930D82CEC8F0D000F6E9C /* NftAuthorWebViewPresenter.swift */,
 			);
 			path = NftAuthorWebView;
 			sourceTree = "<group>";
@@ -582,6 +588,7 @@
 				3F478ED129DB476500F6D39E /* Fonts.swift in Sources */,
 				90BE9D1B2CE2AD6700634A04 /* CatalogueServicesAssembly.swift in Sources */,
 				3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */,
+				9F8930D92CEC8F0D000F6E9C /* NftAuthorWebViewPresenter.swift in Sources */,
 				9F95C2D32CE751420005342F /* NftCatalogueCollectionView.swift in Sources */,
 				90BE9D1F2CE2AFDA00634A04 /* NftCatalogueItemViewController.swift in Sources */,
 				0CFCB7402A78002A0009A829 /* ExamplePutService.swift in Sources */,
@@ -594,6 +601,7 @@
 				5B69254A2CDE7746000561C2 /* UIView+Extension.swift in Sources */,
 				3FC8C39129D2453B0081F015 /* NftOrderPutRequest.swift in Sources */,
 				0CFCB74B2A780EA80009A829 /* UIView+Constraints.swift in Sources */,
+				9F8930D72CEC7BCE000F6E9C /* NftAuthorWebView.swift in Sources */,
 				3F6806D729CBC50A00B4F915 /* CellsReusingUtils.swift in Sources */,
 				3F6806D329CBBE9600B4F915 /* NetworkRequest.swift in Sources */,
 				90BE9D192CE2AD3800634A04 /* NftCatalogueCollectionRequest.swift in Sources */,
