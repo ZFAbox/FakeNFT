@@ -2,27 +2,26 @@
 import Foundation
 
 
-final class NftRecycleStorage {
+final class NftLikesStorage {
     
-    static let shared = NftRecycleStorage()
+    static let shared = NftLikesStorage()
     
     private var userDefaluts = UserDefaults.standard
     
     private init() {}
     
-    private let key: String = "nftRecycle"
+    private let key: String = "nftLikes"
     
-    var order: [String] {
+    var likes: [String] {
         get {
             userDefaluts.object(forKey: key) as? [String] ?? []
         } set {
             userDefaluts.set(newValue, forKey: key)
-            orderCounted = newValue
-            print(newValue)
+            likesCounted = newValue
         }
     }
     
-    var orderCounted: [String] {
+    var likesCounted: [String] {
         get {
             userDefaluts.object(forKey: "\(key)Counted") as? [String] ?? []
         } set {

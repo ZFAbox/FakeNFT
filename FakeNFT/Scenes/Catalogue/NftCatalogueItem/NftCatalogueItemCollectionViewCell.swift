@@ -6,7 +6,7 @@ protocol NftItemRecycleUnlockProtocol: AnyObject {
 }
 
 final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingViewsProtocol {
-
+    
     private var rank: Int = 0 {
         didSet {
             setRacnk()
@@ -17,15 +17,21 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
     private var nftRecycleManager: NftRecycleManagerProtocol?
     private var nftId: String = "" {
         didSet {
-            //            recycleIsEmpty = !recycleStorage.order.contains(nftId)
             recycleIsEmpty = !recycleStorage.orderCounted.contains(nftId)
             if let index = recycleStorage.orderCounted.firstIndex(of: nftId) {
                 recycleStorage.orderCounted.remove(at: index)
+            }
+            print(likesStorage.likesCounted)
+            likeButtonState = likesStorage.likesCounted.contains(nftId)
+            if let index = likesStorage.likesCounted.firstIndex(of: nftId) {
+                likesStorage.likesCounted.remove(at: index)
             }
         }
     }
     private var nftsOrder: [String] = []
     private var recycleStorage = NftRecycleStorage.shared
+    private var profileStorage = NftProfileStorage.shared
+    private var likesStorage = NftLikesStorage.shared
     private var recycleIsEmpty = true
     
     private lazy var itemImageView: UIImageView = {
@@ -140,13 +146,12 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         rank = item.rating
         priceLable.text = "\(item.price) ETH"
         recycleStateUpdate()
+        likeUpdate()
     }
     
     @objc func likeButtonTapped(){
         likeButtonState.toggle()
-        likeImageButton.tintColor = likeButtonState
-        ? .nftRedUni
-        : .nftWhiteUni
+        likeUpdate()
     }
     
     @objc func recycleButtonTapped(){
@@ -166,13 +171,18 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         recycleStateUpdateAnimated()
     }
     
-    
     func recycleStateUpdate(){
         let image = recycleIsEmpty
         ? UIImage(resource: .nftRecycleEmpty)
         : UIImage(resource: .nftRecycleFull)
         recycleButton.setImage(image, for: .normal)
-
+        
+    }
+    
+    func likeUpdate(){
+        likeImageButton.tintColor = likeButtonState
+        ? .nftRedUni
+        : .nftWhiteUni
     }
     
     func recycleStateUpdateAnimated(){
@@ -185,10 +195,10 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
                 let transformation = CGAffineTransform(scaleX: 1.2, y: 1.2)
                 self.recycleButton.transform = transformation
             }
-           UIView.addKeyframe(withRelativeStartTime: 0.67, relativeDuration: 1) {
-               let transformation = CGAffineTransform(scaleX: 1.0, y: 1.0)
-               self.recycleButton.transform = transformation
-               self.recycleButton.setImage(image, for: .normal)
+            UIView.addKeyframe(withRelativeStartTime: 0.67, relativeDuration: 1) {
+                let transformation = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                self.recycleButton.transform = transformation
+                self.recycleButton.setImage(image, for: .normal)
             }
         }
     }
