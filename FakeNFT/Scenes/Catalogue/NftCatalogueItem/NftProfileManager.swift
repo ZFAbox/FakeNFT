@@ -43,10 +43,8 @@ final class NftProfileManager: NftProfileManagerProtocol {
         case .initial:
             assertionFailure("can't move to initial state")
         case .loading:
-            print(profileStorage.profile)
             sendProfile(profile: profileStorage.profile)
         case .nftProfileData(let nftProfile):
-            print(nftProfile)
             delegate?.likeUnlock()
             profileStorage.profile = NftProfile(name: nftProfile.name, description: nftProfile.description, website: nftProfile.website, likes: nftProfile.likes)
         case .failed(let error):

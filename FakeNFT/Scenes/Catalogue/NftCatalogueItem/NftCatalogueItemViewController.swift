@@ -2,16 +2,19 @@
 import UIKit
 import Kingfisher
 
+// MARK: - Protocol
+
 protocol NftCatalogueItemViewControllerProtocol: AnyObject, ErrorView, LoadingView {
     func displayItems(_ nftCollectionItems: [NftCollectionItem])
 }
 
 protocol NftManagerUpdateProtocol: AnyObject, ErrorView, LoadingView {
-//    func updateNftOrder(_ nftOrder: OrderPutResponse)
 }
 
 final class NftCatalogueItemViewController: UIViewController, SettingViewsProtocol, NftManagerUpdateProtocol  {
 
+    // MARK: - Properties
+    
     private var catalogue: NftCatalogueCollection
     private var catalogeItems: [NftCollectionItem] = []
     private var presenter: NftCatalogueItemPresenter
@@ -103,6 +106,8 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
         collectionView.dataSource = self
         return collectionView
     }()
+    
+    // MARK: - Init
     
     init(serviceAssembly: CatalogueServicesAssembly, presenter: NftCatalogueItemPresenter, catalogue: NftCatalogueCollection) {
         self.presenter = presenter

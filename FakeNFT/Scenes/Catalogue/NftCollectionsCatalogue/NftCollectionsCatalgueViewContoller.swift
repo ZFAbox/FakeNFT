@@ -7,7 +7,6 @@ protocol NftCollectionsCatalgueViewContollerProtocol: AnyObject, ErrorView, Load
     func displayCatalogue(_ collectionCatalogue: [NftCatalogueCollection], _ cataloguesPerPage: Int)
 }
 
-
 enum SortedBy {
     case name, nftCount
 }

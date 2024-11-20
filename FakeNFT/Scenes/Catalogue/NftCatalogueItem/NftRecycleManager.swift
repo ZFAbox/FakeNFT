@@ -15,6 +15,7 @@ enum NftRecycleManagerState {
 final class NftRecycleManager: NftRecycleManagerProtocol {
     
     // MARK: - Properties
+    
     weak var delegate: NftItemRecycleUnlockProtocol?
     weak var view: NftManagerUpdateProtocol?
     private var recycleStorage = NftRecycleStorage.shared
@@ -43,10 +44,8 @@ final class NftRecycleManager: NftRecycleManagerProtocol {
         case .initial:
             assertionFailure("can't move to initial state")
         case .loading:
-            print(recycleStorage.order)
             sendNftOrder(nfts: recycleStorage.order)
         case .nftOrderData(let nftOrder):
-            print(nftOrder)
             delegate?.recycleUnlock()
             recycleStorage.order = nftOrder.nfts
         case .failed(let error):

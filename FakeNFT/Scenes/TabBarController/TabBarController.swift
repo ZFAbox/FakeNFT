@@ -21,7 +21,7 @@ final class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let catalogueAssembly = NftCollectionCatalogueAssembly(catalogueServicesAssembler: catalogueServicesAssembly)
         let catalogController = catalogueAssembly.build()
         catalogController.tabBarItem = catalogTabBarItem
@@ -29,5 +29,9 @@ final class TabBarController: UITabBarController {
         viewControllers = [catalogController]
 
         view.backgroundColor = .systemBackground
+    }
+    
+    private func adjustTapBarApperance(){
+        
     }
 }

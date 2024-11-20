@@ -1,6 +1,8 @@
 import UIKit
 import Kingfisher
 
+// MARK: - Protocol
+
 protocol NftItemRecycleUnlockProtocol: AnyObject {
     func recycleUnlock()
     func recyclePreviousStateUpdate()
@@ -13,6 +15,8 @@ protocol NftItemLikeUnlockProtocol: AnyObject {
 }
 
 final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingViewsProtocol {
+    
+    // MARK: - Properties
     
     private var rank: Int = 0 {
         didSet {
@@ -129,6 +133,8 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         button.addTarget(self, action: #selector(recycleButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: .zero)

@@ -8,7 +8,7 @@ protocol NftCatalogueItemPresenterProtocol {
 }
 
 enum NftCatalogueItemState {
-    case initial, loading, failed(Error), nftCollectionData([NftCollectionItem]), nftOrderData(NftOrder), nftLikesData(NftProfile)
+    case initial, loading, failed(Error), nftCollectionData, nftOrderData(NftOrder), nftLikesData(NftProfile)
 }
 
 final class NftCatalogueItemPresenter: NftCatalogueItemPresenterProtocol {
@@ -52,7 +52,7 @@ final class NftCatalogueItemPresenter: NftCatalogueItemPresenterProtocol {
             view?.showLoading()
             let id = input.removeFirst()
             loadNftCollectionItems(id: id)
-        case .nftCollectionData(let nftItems):
+        case .nftCollectionData:
             if 0 < input.count {
                 state = .loading
             } else {
@@ -79,7 +79,7 @@ final class NftCatalogueItemPresenter: NftCatalogueItemPresenterProtocol {
                 switch result {
                 case .success(let nftItems):
                     self.output.append(nftItems)
-                    self.state = .nftCollectionData(output)
+                    self.state = .nftCollectionData
                 case .failure(let error):
                     self.state = .failed(error)
                 }

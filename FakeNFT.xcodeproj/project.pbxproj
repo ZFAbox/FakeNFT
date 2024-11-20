@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0C79EE632A76DD1900EE90EA /* RequestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C79EE622A76DD1900EE90EA /* RequestConstants.swift */; };
-		0CFCB7402A78002A0009A829 /* ExamplePutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFCB73F2A78002A0009A829 /* ExamplePutService.swift */; };
 		0CFCB74B2A780EA80009A829 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFCB74A2A780EA80009A829 /* UIView+Constraints.swift */; };
 		3F478ECF29DB474E00F6D39E /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F478ECE29DB474E00F6D39E /* Colors.swift */; };
 		3F478ED129DB476500F6D39E /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F478ED029DB476500F6D39E /* Fonts.swift */; };
@@ -92,7 +91,6 @@
 
 /* Begin PBXFileReference section */
 		0C79EE622A76DD1900EE90EA /* RequestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestConstants.swift; sourceTree = "<group>"; };
-		0CFCB73F2A78002A0009A829 /* ExamplePutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamplePutService.swift; sourceTree = "<group>"; };
 		0CFCB74A2A780EA80009A829 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
 		3F478ECE29DB474E00F6D39E /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		3F478ED029DB476500F6D39E /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -270,7 +268,6 @@
 				90FA0F6D2CE7F0B4005D2E40 /* NftOrderInfromationService.swift */,
 				9F8930DC2CECAC96000F6E9C /* NftLikesService.swift */,
 				90BE9D1A2CE2AD6700634A04 /* CatalogueServicesAssembly.swift */,
-				0CFCB73F2A78002A0009A829 /* ExamplePutService.swift */,
 				90B87C1A2CED07070098B1DC /* NftProfilePutService.swift */,
 				9042A9C92CEA70C8008B0EEB /* NftOrderPutService.swift */,
 			);
@@ -616,7 +613,6 @@
 				9F95C2D32CE751420005342F /* NftCatalogueCollectionView.swift in Sources */,
 				9FAC8EF32CEDF4F800BD1D2C /* NftCatalogueItemCollectionViewCell.swift in Sources */,
 				90BE9D1F2CE2AFDA00634A04 /* NftCatalogueItemViewController.swift in Sources */,
-				0CFCB7402A78002A0009A829 /* ExamplePutService.swift in Sources */,
 				3F6806D529CBBEC700B4F915 /* NetworkTask.swift in Sources */,
 				90BE9D232CE2B97600634A04 /* NftCollectionItem.swift in Sources */,
 				3F68069729CBBAF100B4F915 /* AppDelegate.swift in Sources */,
