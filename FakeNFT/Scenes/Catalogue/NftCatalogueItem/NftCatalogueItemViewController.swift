@@ -133,6 +133,7 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
     }
     
     @objc func backButtonTapped(){
+        self.hideLoading()
         self.dismiss(animated: true)
     }
     

@@ -6,7 +6,6 @@ import Kingfisher
 protocol NftItemRecycleUnlockProtocol: AnyObject {
     func recycleUnlock()
     func recyclePreviousStateUpdate()
-    
 }
 
 protocol NftItemLikeUnlockProtocol: AnyObject {
@@ -17,12 +16,6 @@ protocol NftItemLikeUnlockProtocol: AnyObject {
 final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingViewsProtocol {
     
     // MARK: - Properties
-    
-    private var rank: Int = 0 {
-        didSet {
-            setRacnk()
-        }
-    }
     
     private var likeButtonState = false
     private var nftRecycleManager: NftRecycleManagerProtocol?
@@ -35,7 +28,6 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
             if let index = recycleStorage.orderCounted.firstIndex(of: nftId) {
                 recycleStorage.orderCounted.remove(at: index)
             }
-            print(likesStorage.likesCounted)
             likeButtonState = likesStorage.likesCounted.contains(nftId)
             if let index = likesStorage.likesCounted.firstIndex(of: nftId) {
                 likesStorage.likesCounted.remove(at: index)
@@ -66,52 +58,7 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         return button
     }()
     
-    private lazy var hStack: UIStackView = {
-        let stack = UIStackView()
-        stack.addArrangedSubview(starImage1)
-        stack.addArrangedSubview(starImage2)
-        stack.addArrangedSubview(starImage3)
-        stack.addArrangedSubview(starImage4)
-        stack.addArrangedSubview(starImage5)
-        stack.spacing = 2
-        stack.axis = .horizontal
-        return stack
-    }()
-    
-    private lazy var starImage1: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(resource: .nftCollectionCardStar)
-        imageView.tintColor = .nftLightGrey
-        return imageView
-    }()
-    
-    private lazy var starImage2: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(resource: .nftCollectionCardStar)
-        imageView.tintColor = .nftLightGrey
-        return imageView
-    }()
-    
-    private lazy var starImage3: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(resource: .nftCollectionCardStar)
-        imageView.tintColor = .nftLightGrey
-        return imageView
-    }()
-    
-    private lazy var starImage4: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(resource: .nftCollectionCardStar)
-        imageView.tintColor = .nftYellowUni
-        return imageView
-    }()
-    
-    private lazy var starImage5: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(resource: .nftCollectionCardStar)
-        imageView.tintColor = .nftLightGrey
-        return imageView
-    }()
+    private lazy var cosmosView = CosmosView()
     
     private lazy var itmeTitle: UILabel = {
         let label = UILabel()
@@ -146,11 +93,6 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setRacnk() {
-        let starImageViews = [starImage1, starImage2, starImage3, starImage4, starImage5]
-        starImageViews.prefix(upTo: rank).forEach{ $0.tintColor = UIColor(resource: .nftYellow) }
-    }
-    
     func configureItem(with item: NftCollectionItem, nftRecycleManager: NftRecycleManagerProtocol?, nftProfileManager: NftProfileManagerProtocol?, alertPresenter: NftNotificationAlerPresenter?) {
         itemImageView.kf.setImage(with: item.images.first)
         var itemName = item.name
@@ -162,7 +104,7 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         self.alertPresenter = alertPresenter
         nftId = item.id
         itmeTitle.text = itemName
-        rank = item.rating
+        cosmosView.setRank(item.rating)
         priceLable.text = "\(item.price) ETH"
         recycleStateUpdate()
         likeUpdate()
@@ -206,7 +148,6 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
                 return
             }
             recycleStorage.order.append(nftId)
-            print(recycleStorage.order)
         } else {
             if let index = recycleStorage.order.firstIndex(of: nftId) {
                 recycleStorage.order.remove(at: index)
@@ -281,7 +222,7 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
     }
     
     func setupView() {
-        [itemImageView, likeImageButton, hStack, itmeTitle, priceLable, recycleButton].forEach { subView in
+        [itemImageView, likeImageButton, cosmosView, itmeTitle, priceLable, recycleButton].forEach { subView in
             contentView.addSubview(subView)
         }
     }
@@ -301,7 +242,7 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
             make.width.equalTo(40)
         }
         
-        hStack.snp.makeConstraints { make in
+        cosmosView.snp.makeConstraints { make in
             make.top.equalTo(itemImageView.snp.bottom).offset(8)
             make.leading.equalTo(itemImageView.snp.leading)
             make.height.equalTo(12)
@@ -309,7 +250,7 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         }
         
         itmeTitle.snp.makeConstraints { make in
-            make.top.equalTo(hStack.snp.bottom).offset(5)
+            make.top.equalTo(cosmosView.snp.bottom).offset(5)
             make.leading.equalTo(itemImageView.snp.leading)
         }
         
@@ -340,7 +281,6 @@ extension NftCatalogueItemCollectionViewCell: NftItemRecycleUnlockProtocol {
         recycleButton.isUserInteractionEnabled = true
     }
 }
-
 
 extension NftCatalogueItemCollectionViewCell: NftItemLikeUnlockProtocol {
     func likesPreviousStateUpdate() {

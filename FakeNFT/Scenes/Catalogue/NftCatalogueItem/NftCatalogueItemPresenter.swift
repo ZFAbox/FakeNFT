@@ -63,7 +63,6 @@ final class NftCatalogueItemPresenter: NftCatalogueItemPresenterProtocol {
             loadNftLikes()
         case .nftLikesData(let nftProfile):
             profileStorage.profile = nftProfile
-            print(profileStorage.profile)
             view?.hideLoading()
             view?.displayItems(output)
         case .failed(let error):

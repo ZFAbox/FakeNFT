@@ -142,5 +142,4 @@ extension NftCollectionsCatalgueViewContoller: NftCollectionSortProtocol {
         }
         nftCollectionsTableView.reloadData()
     }
-    
 }
