@@ -245,32 +245,9 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
     }
     
     func likeUpdateAnimated(){
-        
-//        likeImageButton.tintColor = likeButtonState
-//        ? .nftRedUni
-//        : .nftWhiteUni
         let likeButtonColor: UIColor = likeButtonState
         ? .nftRedUni
         : .nftWhiteUni
-        
-//        UIView.animateKeyframes(withDuration: 1.2, delay: 0) {
-//            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.3) {
-//                let rotateTransform = CGAffineTransform.init(rotationAngle: 0.35)
-//                let scaleTransform = CGAffineTransform(scaleX: 1.1, y: 1.3).concatenating(rotateTransform)
-//                self.likeImageButton.transform = scaleTransform
-//            }
-//            UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.7) {
-//                let rotateTransform = CGAffineTransform.init(rotationAngle: -0.4)
-//                let scaleTransform = CGAffineTransform(scaleX: 1.5, y: 1.5).concatenating(rotateTransform)
-//                self.likeImageButton.transform = scaleTransform
-//            }
-//            UIView.addKeyframe(withRelativeStartTime: 0.7, relativeDuration: 1) {
-//                let rotateTransform = CGAffineTransform.init(rotationAngle: 0)
-//                let scaleTransform = CGAffineTransform(scaleX: 1, y: 1).concatenating(rotateTransform)
-//                self.likeImageButton.transform = scaleTransform
-//                self.likeImageButton.tintColor = likeButtonColor
-//            }
-//        }
         
         UIView.animateKeyframes(withDuration: 1.2, delay: 0) {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.25) {
