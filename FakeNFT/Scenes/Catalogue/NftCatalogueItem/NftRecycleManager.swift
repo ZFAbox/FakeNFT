@@ -51,8 +51,7 @@ final class NftRecycleManager: NftRecycleManagerProtocol {
             recycleStorage.order = nftOrder.nfts
         case .failed(let error):
             let errorModel = makeErrorModel(error)
-            view?.hideLoading()
-            delegate?.recycleUnlock()
+            delegate?.recyclePreviousStateUpdate()
             view?.showError(errorModel)
         }
     }

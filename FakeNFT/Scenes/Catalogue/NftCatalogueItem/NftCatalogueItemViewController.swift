@@ -17,6 +17,7 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
     private var presenter: NftCatalogueItemPresenter
     private var nftRecycleManager: NftRecycleManagerProtocol?
     private var nftProfileManager: NftProfileManagerProtocol?
+    private var alertPresenter: NftNotificationAlerPresenter?
     
     private lazy var nftCatalogueCollectionHeight: Int = {
         let heightOfCollectionItem: Int = 192
@@ -117,6 +118,7 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.alertPresenter = NftNotificationAlerPresenter(viewController: self)
         self.navigationController?.isNavigationBarHidden = true
         view.backgroundColor = .nftWhite
         setupView()
@@ -223,7 +225,7 @@ extension NftCatalogueItemViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectioItem", for: indexPath) as! NftCatalogueItemCollectionViewCell
-        cell.configureItem(with: catalogeItems[indexPath.row], nftRecycleManager: nftRecycleManager, nftProfileManager: nftProfileManager)
+        cell.configureItem(with: catalogeItems[indexPath.row], nftRecycleManager: nftRecycleManager, nftProfileManager: nftProfileManager, alertPresenter: alertPresenter)
         return cell
     }
 }

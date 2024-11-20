@@ -51,8 +51,7 @@ final class NftProfileManager: NftProfileManagerProtocol {
             profileStorage.profile = NftProfile(name: nftProfile.name, description: nftProfile.description, website: nftProfile.website, likes: nftProfile.likes)
         case .failed(let error):
             let errorModel = makeErrorModel(error)
-//            view?.hideLoading()
-            delegate?.likeUnlock()
+            delegate?.likesPreviousStateUpdate()
             view?.showError(errorModel)
         }
     }
