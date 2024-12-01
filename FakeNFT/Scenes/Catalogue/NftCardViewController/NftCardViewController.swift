@@ -69,8 +69,10 @@ final class NftCardViewController: UIViewController, LoadingView {
     
     private lazy var nftTitle: UILabel = {
         let label = UILabel()
+        label.text = "NFT Title"
         label.font = UIFont.headline3
         label.textColor = .nftBlack
+        label.textAlignment = .center
         return label
     }()
     
@@ -78,6 +80,7 @@ final class NftCardViewController: UIViewController, LoadingView {
         let label = UILabel()
         label.font = UIFont.bodyBold
         label.textColor = .nftBlack
+        label.text = "Catalogue"
         return label
     }()
     
@@ -145,7 +148,7 @@ final class NftCardViewController: UIViewController, LoadingView {
         view.backgroundColor = .nftWhite
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubviews(collectionView, pageControl, backButton, likeButton)
+        contentView.addSubviews(collectionView, pageControl, backButton, likeButton, nftTitle, cosmosView, catalogueTitle)
     }
     
     private func addConstraints() {
@@ -189,9 +192,24 @@ final class NftCardViewController: UIViewController, LoadingView {
             make.trailing.equalTo(view.snp.trailing).offset(-16)
             make.top.equalTo(collectionView.snp.bottom).offset(12)
             make.height.equalTo(4)
+        }
+        
+        nftTitle.snp.makeConstraints { make in
+            make.top.equalTo(pageControl.snp.bottom).offset(28)
+            make.leading.equalTo(view.snp.leading).offset(16)
             make.bottom.equalTo(contentView.snp.bottom)
         }
     
+        cosmosView.snp.makeConstraints { make in
+            make.centerY.equalTo(nftTitle.snp.centerY)
+            make.leading.equalTo(nftTitle.snp.trailing).offset(8)
+            make.height.equalTo(12)
+        }
+        
+        catalogueTitle.snp.makeConstraints { make in
+            make.centerY.equalTo(nftTitle.snp.centerY)
+            make.trailing.equalTo(view.snp.trailing).offset(-16)
+        }
     }
     
 }
