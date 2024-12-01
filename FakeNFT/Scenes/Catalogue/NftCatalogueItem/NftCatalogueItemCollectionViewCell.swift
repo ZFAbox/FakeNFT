@@ -34,20 +34,29 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
             }
         }
     }
+    private var nftItem: Nft = Nft(name: "", id: "", rating: 0, price: 0, images: [])
     private var nftsOrder: [String] = []
     private var recycleStorage = NftRecycleStorage.shared
     private var profileStorage = NftProfileStorage.shared
     private var likesStorage = NftLikesStorage.shared
     private var recycleIsEmpty = true
     private var alertPresenter: NftNotificationAlerPresenter?
+    private var nftCardAssembly: NftCardViewControllerAssembly?
     
     private lazy var itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 12
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(tapGestureRecognizer)
         return imageView
     }()
+    
+    @objc func imageTapped () {
+        nftCardAssembly?.present(with: nftItem)
+    }
     
     private lazy var likeImageButton: UIButton = {
         let button = UIButton()
@@ -93,15 +102,20 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureItem(with item: Nft, nftRecycleManager: NftRecycleManagerProtocol?, nftProfileManager: NftProfileManagerProtocol?, alertPresenter: NftNotificationAlerPresenter?) {
+    func configureItem(with item: Nft, nftRecycleManager: NftRecycleManagerProtocol?, nftProfileManager: NftProfileManagerProtocol?, alertPresenter: NftNotificationAlerPresenter?, nftCardAssembly: NftCardViewControllerAssembly?) {
+        
+        self.nftCardAssembly = nftCardAssembly
+        self.nftRecycleManager = nftRecycleManager
+        self.nftProfileManager = nftProfileManager
+        self.alertPresenter = alertPresenter
+        
+        nftItem = item
+        
         itemImageView.kf.setImage(with: item.images.first)
         var itemName = item.name
         if itemName.count > 5 {
             itemName = itemName.prefix(5) + "..."
         }
-        self.nftRecycleManager = nftRecycleManager
-        self.nftProfileManager = nftProfileManager
-        self.alertPresenter = alertPresenter
         nftId = item.id
         itmeTitle.text = itemName
         cosmosView.setRank(item.rating)
@@ -110,7 +124,7 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         likeUpdate()
     }
     
-    @objc func likeButtonTapped(){
+    @objc private func likeButtonTapped(){
         self.nftProfileManager?.delegate = self
         profileBeforeUpdate = profileStorage.profile
         guard let nftProfileManager = nftProfileManager else { return }
@@ -138,7 +152,7 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         likeUpdateAnimated(likeButtonState, likeImageButton)
     }
     
-    @objc func recycleButtonTapped(){
+    @objc private func recycleButtonTapped(){
         self.nftRecycleManager?.delegate = self
         recycleBeforeUpdate = recycleStorage.order
         guard let nftRecycleManager = nftRecycleManager else { return }
@@ -159,7 +173,7 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         recycleStateUpdateAnimated(recycleIsEmpty, recycleButton)
     }
     
-    func recycleStateUpdate(){
+    private func recycleStateUpdate(){
         let image = recycleIsEmpty
         ? UIImage(resource: .nftRecycleEmpty)
         : UIImage(resource: .nftRecycleFull)
@@ -167,7 +181,7 @@ final class NftCatalogueItemCollectionViewCell: UICollectionViewCell, SettingVie
         
     }
     
-    func likeUpdate(){
+    private func likeUpdate(){
         likeImageButton.tintColor = likeButtonState
         ? .nftRedUni
         : .nftWhiteUni

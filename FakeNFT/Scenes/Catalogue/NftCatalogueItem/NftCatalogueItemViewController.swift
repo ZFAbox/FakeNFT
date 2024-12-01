@@ -21,6 +21,8 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
     private var nftRecycleManager: NftRecycleManagerProtocol?
     private var nftProfileManager: NftProfileManagerProtocol?
     private var alertPresenter: NftNotificationAlerPresenter?
+    private var serviceAssembly: ServicesAssembly
+    private var nftCardAssemby: NftCardViewControllerAssembly?
     
     private lazy var nftCatalogueCollectionHeight: Int = {
         let heightOfCollectionItem: Int = 192
@@ -113,6 +115,7 @@ final class NftCatalogueItemViewController: UIViewController, SettingViewsProtoc
     init(serviceAssembly: ServicesAssembly, presenter: NftCatalogueItemPresenter, catalogue: Catalogue) {
         self.presenter = presenter
         self.catalogue = catalogue
+        self.serviceAssembly = serviceAssembly
         super.init(nibName: nil, bundle: nil)
         self.nftRecycleManager = NftRecycleManager(servicesAssembly: serviceAssembly,view: self)
         self.nftProfileManager = NftProfileManager(servicesAssembly: serviceAssembly,view: self)
@@ -232,7 +235,7 @@ extension NftCatalogueItemViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: NftCatalogueItemCollectionViewCell = collectionView.dequeueReusableCell(indexPath: indexPath)
-        cell.configureItem(with: catalogeItems[indexPath.row], nftRecycleManager: nftRecycleManager, nftProfileManager: nftProfileManager, alertPresenter: alertPresenter)
+        cell.configureItem(with: catalogeItems[indexPath.row], nftRecycleManager: nftRecycleManager, nftProfileManager: nftProfileManager, alertPresenter: alertPresenter, nftCardAssembly: nftCardAssemby)
         return cell
     }
 }
@@ -257,6 +260,7 @@ extension NftCatalogueItemViewController: UICollectionViewDelegateFlowLayout {
 extension NftCatalogueItemViewController: NftCatalogueItemViewControllerProtocol {
     func displayItems(_ nftCollectionItems: [Nft]) {
         catalogeItems = nftCollectionItems
+        nftCardAssemby = NftCardViewControllerAssembly(nftCollection: catalogeItems, serviceAssembly: serviceAssembly, presentOn: self)
         nftCatalogueCollectionView.reloadData()
     }
 }
